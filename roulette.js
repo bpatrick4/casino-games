@@ -33,7 +33,7 @@ function getFrequency(arr) {
 function displayFrequency(frequency) {
   for (let num = 1; num <= 38; num++) {
     const count = frequency[num] || 0;
-    console.log(`Number ${num}: ${count}`);
+    console.log(`Number ${num === 37 ? '0': num === 38 ? '00': num}: ${count}`);
   }
 }
 
@@ -45,4 +45,4 @@ console.log(resultArr);
 
 //display spin frequency
 let freq = getFrequency(resultArr);
-displayFrequency(freq, resultArr.length);
+displayFrequency(freq);
