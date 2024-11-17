@@ -3,9 +3,6 @@
 - Please check back in perodically to see our new updates
 
 ## Current games
-- roulette.js, roulette-one.js
-- craps.js
-
 ### roulette.js, roulette-one.js
 - You know you love the thrill of the spin and the bounce... (okay that's not in this version) but the fun is still there!
 - roulette-one.js lets you give it a spin, one click at a time.
@@ -13,10 +10,8 @@
 
 ### craps.js
 - Give it a roll!
-- running the code returns a log to console of:
-die one: x
-die two: y
-roll total: x + y
+- running the code returns array[dieOne, dieTwo, total]
+- you must update balance after each roll (working on this)
 
 
 ## Progress
