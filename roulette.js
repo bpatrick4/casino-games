@@ -43,6 +43,6 @@ let resultArr = getListOfTotalSpins(getRandomInt, LOW, HIGH, totalSpins);
 // display array of all spins
 console.log(resultArr);
 
-//display spin frequency
+// display spin frequency
 let freq = getFrequency(resultArr);
 displayFrequency(freq);

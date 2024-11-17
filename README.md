@@ -1,5 +1,5 @@
 # Welcome to CasinoGames!
-- This will be a place to enjoy a text-based version of your favorite games at your local casino.
+- This will be a place to enjoy a text-based version of your favorite games at the casino.
 - Please check back in perodically to see our new updates
 
 ## Current games
