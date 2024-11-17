@@ -1,7 +1,7 @@
 // roulette game
 // 1-36, 37 = 0, 38 = 00
-const low = 1
-const high = 39
+const LOW = 1; //inclusive
+const HIGH = 39; //exclusive
 
 // get int between min and (max - 1)
 function getRandomInt(min, max) {
@@ -11,4 +11,4 @@ function getRandomInt(min, max) {
 }
 
 // display one roulette spin
-console.log(`The ball landed on the: ${getRandomInt(low, high)}`);
+console.log(`The ball landed on the: ${getRandomInt(LOW, HIGH)}`);

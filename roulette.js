@@ -1,8 +1,8 @@
 // roulette game
 // 1-36, 37 = 0, 38 = 00
-const low = 1
-const high = 39
-const totalSpins = 100;
+const LOW = 1; //inclusive
+const HIGH = 39; //exclusive
+const totalSpins = 6; //user-input
 
 // get int between min and (max - 1)
 function getRandomInt(min, max) {
@@ -11,8 +11,8 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 }
 
-// get list of 100 roulette spins
-function getListHundred(action, min, max, totalSpins) {
+// get list of all roulette spins
+function getListOfTotalSpins(action, min, max, totalSpins) {
   const arr = [];
   for(let i = 0; i < totalSpins; i++ ) {
     arr.push(action(min, max));
@@ -38,7 +38,7 @@ function displayFrequency(frequency) {
 }
 
 // get array of all spins
-let resultArr = getListHundred(getRandomInt, low, high, totalSpins);
+let resultArr = getListOfTotalSpins(getRandomInt, LOW, HIGH, totalSpins);
 
 // display array of all spins
 console.log(resultArr);
