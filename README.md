@@ -3,16 +3,16 @@
 - Please check back in perodically to see our new updates
 
 ## Current games
-### roulette.js, roulette-one.js
+### roulette.js, roulette-multi.js
 - You know you love the thrill of the spin and the bounce... (okay that's not in this version) but the fun is still there!
-- roulette-one.js lets you give it a spin, one click at a time.
-- roulette.js lets you customize your number of spins using the "totalSpins" const. It will then provide a readout of the following spins along with their respective frequency of occurrence. 
+- roulette.js lets you give it a spin, one click at a time.
+- roulette-multi.js lets you customize your number of spins using the "totalSpins" const. It will then provide a readout of the following spins along with their respective frequency of occurrence. 
 
 ### craps.js
 - Give it a roll!
 - running the code returns array[dieOne, dieTwo, total]
 - you must update balance after each roll (working on this)
 
-
 ## Progress
-- early stages november 2024
+### November 2024
+ - Early stages

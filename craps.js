@@ -1,31 +1,14 @@
 // craps game
-// pair of dice (1-6)
-const LOW = 1; //inclusive
-const HIGH = 7; //exclusive
 let balanceObj = { balance: 500 };
 let bet = ["pass", 25];//bet[pass/dont, betAmount]
 
-// get int between min and (max - 1)
-function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min) + min);
-}
-
-// rolls a pair of dice; returns each die value and total
-function roll(){
-  const dieOneResult = getRandomInt(LOW, HIGH);
-  const dieTwoResult = getRandomInt(LOW, HIGH);
-  const dice = [dieOneResult, dieTwoResult, (dieOneResult + dieTwoResult)];
-  return dice;
-} 
+// require middleware
+const { rollDice } = require("./middleware/rollDice");
 
 // roll dice; returns array of diceResult[dieOne, dieTwo, total]
-const diceResult = roll();
+const diceResult = rollDice();
 
-console.log(diceResult)
-
-// establish point
+// establish point 
 function comeOutRoll(diceResult, bet, balanceObj){
   const point = diceResult[2];
 
@@ -55,5 +38,6 @@ function comeOutRoll(diceResult, bet, balanceObj){
   }
 }
 
-// game
+/* game */
+console.log(diceResult)
 comeOutRoll(diceResult, bet, balanceObj);
