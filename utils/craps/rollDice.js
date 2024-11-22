@@ -1,5 +1,5 @@
-// require middleware
-const { getRandomInt } = require("./getRandomInt");
+// require utils
+const { getRandomInt } = require("../getRandomInt");
 
 // six-sided die
 const LOW = 1; //inclusive

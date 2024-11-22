@@ -1,13 +1,3 @@
-// craps game
-let balanceObj = { balance: 500 };
-let bet = ["pass", 25];//bet[pass/dont, betAmount]
-
-// require middleware
-const { rollDice } = require("./middleware/rollDice");
-
-// roll dice; returns array of diceResult[dieOne, dieTwo, total]
-const diceResult = rollDice();
-
 // establish point 
 function comeOutRoll(diceResult, bet, balanceObj){
   const point = diceResult[2];
@@ -38,6 +28,6 @@ function comeOutRoll(diceResult, bet, balanceObj){
   }
 }
 
-/* game */
-console.log(diceResult)
-comeOutRoll(diceResult, bet, balanceObj);
+module.exports = {
+  comeOutRoll,
+}

@@ -10,9 +10,10 @@
 
 ### craps.js
 - Give it a roll!
-- running the code returns array[dieOne, dieTwo, total]
+- bet[betType, betAmount]
+- current betTypes: "pass" & "dont"
 - you must update balance after each roll (working on this)
 
 ## Progress
 ### November 2024
- - Early stages
+- Early stages
