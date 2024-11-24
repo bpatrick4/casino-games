@@ -1,14 +1,29 @@
 // craps game
-let balanceObj = { balance: 500 };
-const bet = ["pass", 25];//bet[betType, betAmount]
+const bet = ["dont", 25];//bet[betType, betAmount]
 
 // require utils
 const { rollDice } = require("../utils/craps/rollDice");
 const { comeOutRoll } = require("../utils/craps/comeOutRoll");
+const { pointRoll } = require("../utils/craps/pointRoll");
+
 
 // roll dice; returns array of diceResult[dieOne, dieTwo, total]
-const diceResult = rollDice();
+const offRoll = rollDice();
+const onRoll = rollDice();
 
 /* game */
-console.log(diceResult);
-comeOutRoll(diceResult, bet, balanceObj);
+console.log(offRoll);
+comeOutRoll(offRoll, bet);
+
+if (
+  offRoll[2] === 2 ||
+  offRoll[2] === 3 || 
+  offRoll[2] === 7 || 
+  offRoll[2] === 11 || 
+  offRoll[2] === 12){
+  console.log("GAME END.")
+}
+else{
+  console.log(onRoll);
+  pointRoll(onRoll, offRoll[2], bet);
+};
