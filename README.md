@@ -14,6 +14,13 @@
 - current betTypes: "pass" & "dont"
 - you must update balance after each roll (working on this)
 
+### poker.js
+- Basic game of poker!
+- display player hand 
+- display flop, turn, river
+- display dealer hand
+- needs betting and win/loss system
+
 ## Progress
 ### November 2024
 - Early stages
