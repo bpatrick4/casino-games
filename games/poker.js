@@ -3,7 +3,8 @@ const SUITS = ["\u2663", "\u2666", "\u2665", "\u2660"];
 const VALUES = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K"];
 
 class Deck {
-  constructor(cards = freshDeck()) {
+  // default to freshDeck
+  constructor(cards = Deck.freshDeck()) {
     this.cards = cards;
   }
 
@@ -11,13 +12,22 @@ class Deck {
     return this.cards.length;
   }
 
+  // deal/burn one card
+  deal() {
+    return this.cards.pop();
+  }
+
+  // shuffle deck
   shuffle() {
-    for (let i = this.numberOfCards - 1; i > 0; i--) {
+    const numOfCards = this.numberOfCards
+    for (let i = numOfCards - 1; i > 0; i--) {
       const newIndex = Math.floor(Math.random() * (i + 1));
-      const oldValue = this.cards[newIndex];
-      this.cards[newIndex] = this.cards[i];
-      this.cards[i] = oldValue;
+      [this.cards[newIndex], this.cards[i]] = [this.cards[i], this.cards[newIndex]]
     }
+  }
+
+  static freshDeck() {
+    return SUITS.flatMap(suit => VALUES.map(value => new Card(suit, value)));
   }
 }
 
@@ -28,56 +38,169 @@ class Card {
   }
 }
 
-// default shuffle (C, D, H, S)
-function freshDeck() {
-  return SUITS.flatMap(suit => {
-    return VALUES.map(value => {
-      return new Card(suit, value);
-    })
-  })
+class Player {
+  constructor(name, balance) {
+    this.name = name;
+    this.balance = balance;
+    this.hand = [];
+    this.currentBet = 0;
+    this.hasFolded = false;
+  }
 }
 
-// shuffle
-const deck = new Deck();
-deck.shuffle();
+class Table {
+  constructor() {
+    this.players = [];
+    this.handCards = 2; //cards per player
+    this.communityCards = [];
+    this.pot = 0;
+    this.currentRound = 'pre-flop'; //"pre-flop" > "flop" > "turn" > "river"
+  }
+  
+  // player
+  addPlayer(name, balance) {
+    this.players.push(new Player(name, balance));
+  }
 
-// display all cards
-//console.log(deck.cards);
+  get numberOfPlayers() {
+    return this.players.length;
+  }
 
-const player = [deck.cards[0], deck.cards[2]];
-const dealer = [deck.cards[1], deck.cards[3]];
-const flop = [deck.cards[5], deck.cards[6], deck.cards[7]];
-const turn = deck.cards[9];
-const river = deck.cards[11];
+  // deal cards
+  dealHands() {
+    // logic for dealing hands to players
+    console.log(`Round: ${this.currentRound}`);
+    for (let i = 0; i < this.handCards; i++) {
+      for (let player of this.players) {
+        if (deck.numberOfCards > 0) {
+          player.hand.push(deck.deal());
+        }
+      }
+    }
+  }
 
+  dealFlop() {
+    // logic for dealing the flop
+    this.nextRound();
+    console.log(`Round: ${this.currentRound}`);
+    deck.deal(); //burn a card
+    for (let i = 0; i < 3; i++) {
+      // add flop cards to communityCards
+      this.communityCards.push(deck.deal());
+    }
+  } 
 
-// display player hand
-console.log(`Player hand: `);
-console.log(player[0].value, player[0].suit);
-console.log(player[1].value, player[1].suit);
+  dealTurn() {
+    // logic for dealing the turn
+    this.nextRound();
+    console.log(`Round: ${this.currentRound}`);
+    deck.deal(); //burn a card
+    this.communityCards.push(deck.deal()); //add turn card to communityCards 
+  }
 
+  dealRiver() {
+    // logic for dealing the river
+    this.nextRound();
+    console.log(`Round: ${this.currentRound}`);
+    deck.deal(); //burn a card
+    this.communityCards.push(deck.deal()); //add river card to communityCards
+  }
 
-// display community cards
-setTimeout(() => {
-  console.log(`\nFlop: `);
-  console.log(flop[0].value, flop[0].suit);
-  console.log(flop[1].value, flop[1].suit);
-  console.log(flop[2].value, flop[2].suit);
-}, 3000);
+  // display cards
+  displayPlayerHands(){
+    // display each player's hand
+    for (const player of game.players) {
+      console.log(`${player.name}'s hand:`);
+      for(let i = 0; i < this.handCards; i++){
+        console.log(`${player.hand[i].value} ${player.hand[i].suit}`); //log card as "A ♣"
+      }
+      console.log();
+    }
+  }
 
-setTimeout(() => {
-  console.log(`\nTurn: `);
-  console.log(turn.value, turn.suit);
-}, 8000);
+  displayCommunityCards(round) {
+    if (round === "flop") {
+      // display flop
+      for (let i = 0; i < 3; i++) {
+        console.log(`${this.communityCards[i].value} ${this.communityCards[i].suit}`); //log card as "A ♣"
+      }
+      console.log();
+    } 
+    else if (round === "turn") {
+      // display turn
+      for (let i = 3; i < 4; i++) {
+        console.log(`${this.communityCards[i].value} ${this.communityCards[i].suit}`); //log card as "A ♣"
+      }
+      console.log();
+    } 
+    else if (round === "river") {
+      // display river
+      for (let i = 4; i < 5; i++) {
+        console.log(`${this.communityCards[i].value} ${this.communityCards[i].suit}`); //log card as "A ♣"
+      }
+      console.log();
+    }
+  }
 
-setTimeout(() => {
-  console.log(`\nRiver: `);
-  console.log(river.value, river.suit);
-}, 12000);
+  // handle betting
+  handleBet(player, amount) {
+    // Update player balance and current bet
+    // Update the pot
+  }
 
-// display dealer hand
-setTimeout(() => {
-  console.log(`\nDealer hand: `);
-  console.log(dealer[0].value, dealer[0].suit);
-  console.log(dealer[1].value, dealer[1].suit);
-}, 14000);
+  handleCall(player) {
+    // Logic for handling a call
+  }
+
+  handleRaise(player, amount) {
+    // Logic for handling a raise
+  }
+
+  handleFold(player) {
+    player.hasFolded = true;
+    // Additional logic for folding
+  }
+
+  nextRound() {
+    // Logic for transitioning to the next round
+    if (this.currentRound === "pre-flop") {
+      return (this.currentRound = "flop");
+    }
+    else if (this.currentRound === "flop") {
+      return (this.currentRound = "turn");
+    }
+    else if (this.currentRound === "turn") {
+      return (this.currentRound = "river");
+    }
+    else if (this.currentRound === "river") {
+      return (this.currentRound = "pre-flop");
+    }
+    else {console.log("invalid round name")}
+  }
+
+  // handle win
+  evaluateHands() {
+    // Logic for evaluating hands and determining the winner
+  }
+}
+
+// GAME
+const deck = new Deck(); //get a new deck of cards
+deck.shuffle(); //shuffle the deck of cards
+let game = new Table(); //console.log(deck.cards);
+
+// add players(name, balance) to table {player limit: 9}
+game.addPlayer("player", 1000);
+game.addPlayer("dealer", 1000);
+
+// deal player's hand
+game.dealHands();
+game.displayPlayerHands();
+
+// deal communityCards
+game.dealFlop();
+game.displayCommunityCards("flop");
+game.dealTurn();
+game.displayCommunityCards("turn");
+game.dealRiver();
+game.displayCommunityCards("river");
