@@ -82,7 +82,7 @@ class Table {
   dealFlop() {
     // logic for dealing the flop
     this.nextRound();
-    console.log(`Round: ${this.currentRound}`);
+    console.log(`\nRound: ${this.currentRound}`);
     deck.deal(); //burn a card
     for (let i = 0; i < 3; i++) {
       // add flop cards to communityCards
@@ -93,7 +93,7 @@ class Table {
   dealTurn() {
     // logic for dealing the turn
     this.nextRound();
-    console.log(`Round: ${this.currentRound}`);
+    console.log(`\nRound: ${this.currentRound}`);
     deck.deal(); //burn a card
     this.communityCards.push(deck.deal()); //add turn card to communityCards 
   }
@@ -101,7 +101,7 @@ class Table {
   dealRiver() {
     // logic for dealing the river
     this.nextRound();
-    console.log(`Round: ${this.currentRound}`);
+    console.log(`\nRound: ${this.currentRound}`);
     deck.deal(); //burn a card
     this.communityCards.push(deck.deal()); //add river card to communityCards
   }
@@ -110,7 +110,9 @@ class Table {
   displayPlayerHands(){
     // display each player's hand
     for (const player of game.players) {
-      console.log(`${player.name}'s hand:`);
+      console.log(`-- Player: ${player.name} --`);
+      console.log(`- Balance: $${player.balance}`);
+      console.log(`- Hand:`);
       for(let i = 0; i < this.handCards; i++){
         console.log(`${player.hand[i].value} ${player.hand[i].suit}`); //log card as "A ♣"
       }
@@ -142,10 +144,19 @@ class Table {
     }
   }
 
+  displayPot() {
+    console.log(`-- Pot: $${this.pot} --`);
+  }
+
   // handle betting
   handleBet(player, amount) {
     // Update player balance and current bet
+    this.players[player].balance -= amount;
+    this.players[player].currentBet = amount;
+    console.log(`-- ${this.players[player].name} bet: $${this.players[player].currentBet} behind: $${this.players[player].balance} --`)
+
     // Update the pot
+    this.pot += amount;
   }
 
   handleCall(player) {
@@ -189,18 +200,46 @@ const deck = new Deck(); //get a new deck of cards
 deck.shuffle(); //shuffle the deck of cards
 let game = new Table(); //console.log(deck.cards);
 
+// table blinds (in dollars, $)
+const smallBlind = 25;
+const bigBlind = 50;
+
 // add players(name, balance) to table {player limit: 9}
-game.addPlayer("player", 1000);
-game.addPlayer("dealer", 1000);
+game.addPlayer("alice", 1000);
+game.addPlayer("bob", 1000);
 
 // deal player's hand
 game.dealHands();
 game.displayPlayerHands();
 
-// deal communityCards
+// pre-flop betting
+game.handleBet(0, smallBlind); //alice bets smallBlind
+game.handleBet(1, bigBlind); //bob bets bigBlind
+game.displayPot();
+
+// deal flop
 game.dealFlop();
 game.displayCommunityCards("flop");
+
+// flop betting
+game.handleBet(0, smallBlind); //alice doubles smallBlind to stay
+game.handleBet(1, 0); //bob bets 0
+game.displayPot();
+
+// deal turn
 game.dealTurn();
 game.displayCommunityCards("turn");
+
+// turn betting
+game.handleBet(0, 50); //alice bets 50
+game.handleBet(1, 50); //bob bets 50
+game.displayPot();
+
+// deal river
 game.dealRiver();
 game.displayCommunityCards("river");
+
+// river betting
+game.handleBet(0, 50); //alice bets 50
+game.handleBet(1, 50); //bob bets 50
+game.displayPot();
