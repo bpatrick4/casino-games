@@ -1,3 +1,4 @@
+// POKER GAME
 // deck of cards (C, D, H, S)
 const SUITS = ["\u2663", "\u2666", "\u2665", "\u2660"];
 const VALUES = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K"];
@@ -66,7 +67,7 @@ class Table {
     return this.players.length;
   }
 
-  // deal cards
+  // handle cards
   dealHands() {
     // logic for dealing hands to players
     console.log(`Round: ${this.currentRound}`);
@@ -106,7 +107,7 @@ class Table {
     this.communityCards.push(deck.deal()); //add river card to communityCards
   }
 
-  // display cards
+  // handle displays
   displayPlayerHands(){
     // display each player's hand
     for (const player of game.players) {
@@ -148,11 +149,12 @@ class Table {
     console.log(`-- Pot: $${this.pot} --`);
   }
 
-  // handle betting
+  // handle bets
   handleBet(player, amount) {
     // Update player balance and current bet
     this.players[player].balance -= amount;
     this.players[player].currentBet = amount;
+    this.currentBet = amount; //set base currentBet to the 
     console.log(`-- ${this.players[player].name} bet: $${this.players[player].currentBet} behind: $${this.players[player].balance} --`)
 
     // Update the pot
@@ -161,10 +163,15 @@ class Table {
 
   handleCall(player) {
     // Logic for handling a call
+    this.players[player].balance -= this.currentBet;
+    console.log(`-- ${this.players[player].name} called: $${this.currentBet} behind: $${this.players[player].balance} --`)
+
+    // Update the pot
+    this.pot += this.currentBet;
   }
 
   handleRaise(player, amount) {
-    // Logic for handling a raise
+   // Logic for handling a raise
   }
 
   handleFold(player) {
@@ -189,7 +196,7 @@ class Table {
     else {console.log("invalid round name")}
   }
 
-  // handle win
+  // handle wins
   evaluateHands() {
     // Logic for evaluating hands and determining the winner
   }
@@ -231,8 +238,8 @@ game.dealTurn();
 game.displayCommunityCards("turn");
 
 // turn betting
-game.handleBet(0, 50); //alice bets 50
-game.handleBet(1, 50); //bob bets 50
+game.handleBet(0, 500); //alice bets 50
+game.handleCall(1); //bob calls alice
 game.displayPot();
 
 // deal river
@@ -240,6 +247,6 @@ game.dealRiver();
 game.displayCommunityCards("river");
 
 // river betting
-game.handleBet(0, 50); //alice bets 50
-game.handleBet(1, 50); //bob bets 50
+game.handleBet(0, 250); //alice bets 150
+game.handleCall(1); //bob calls alice
 game.displayPot();
